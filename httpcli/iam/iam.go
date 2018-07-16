@@ -39,8 +39,10 @@ func Doer(client *http.Client, config Config) httpcli.Doer {
 	return httpcli.DoerFunc(func(req *http.Request) (*http.Response, error) {
 		// TODO if we still have a valid token, try using it first
 		token := jwt.New(jwt.SigningMethodRS256)
-		token.Claims["uid"] = config.ID
-		token.Claims["exp"] = time.Now().Add(time.Hour).Unix()
+		claims := make(jwt.MapClaims)
+		claims["uid"] = config.ID
+		claims["exp"] = time.Now().Add(time.Hour).Unix()
+		token.Claims = claims
 		// SignedString will treat secret as PEM-encoded key
 		tokenStr, err := token.SignedString([]byte(config.PrivateKey))
 		if err != nil {

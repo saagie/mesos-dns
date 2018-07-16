@@ -84,7 +84,7 @@ type Config struct {
 
 	caPool *x509.CertPool
 
-	httpConfigMap httpcli.ConfigMap
+	HttpConfigMap httpcli.ConfigMap
 
 	MesosAuthentication httpcli.AuthMechanism
 }
@@ -175,8 +175,8 @@ func (c *Config) initMesosAuthentication() {
 		configMapOpts = append(configMapOpts, iam.Configuration(iamConfig))
 	}
 
-	c.httpConfigMap = configMapOpts.ToConfigMap()
-	err := httpcli.Validate(c.MesosAuthentication, c.httpConfigMap)
+	c.HttpConfigMap = configMapOpts.ToConfigMap()
+	err := httpcli.Validate(c.MesosAuthentication, c.HttpConfigMap)
 	if err != nil {
 		logging.Error.Fatal(err.Error())
 	}

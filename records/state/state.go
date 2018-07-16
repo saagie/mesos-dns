@@ -60,6 +60,7 @@ type Status struct {
 	State           string          `json:"state"`
 	Labels          []Label         `json:"labels,omitempty"`
 	ContainerStatus ContainerStatus `json:"container_status,omitempty"`
+	Healthy         *bool          	`json:"healthy"`
 }
 
 // ContainerStatus holds container metadata as defined in the /state.json
@@ -94,6 +95,7 @@ type Task struct {
 	DiscoveryInfo DiscoveryInfo `json:"discovery"`
 
 	SlaveIP string `json:"-"`
+	Labels  []Label `json:"labels,omitempty"`
 }
 
 // HasDiscoveryInfo return whether the DiscoveryInfo was provided in the state.json
@@ -261,11 +263,14 @@ type DiscoveryInfo struct {
 	Location    string `json:"location,omitempty"`
 	Environment string `json:"environment,omitempty"`
 	Labels      struct {
-		Labels []Label `json:"labels"`
-	} `json:"labels"`
-	Ports struct {
-		DiscoveryPorts []DiscoveryPort `json:"ports"`
-	} `json:"ports"`
+			    Labels []Label `json:"labels"`
+		    } `json:"labels"`
+	Ports Ports `json:"ports"`
+}
+
+// Ports holds a list of DiscoveryPort
+type Ports struct {
+	DiscoveryPorts []DiscoveryPort `json:"ports"`
 }
 
 // DiscoveryPort holds a port for a task defined in the /state.json Mesos HTTP endpoint.

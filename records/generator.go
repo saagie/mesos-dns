@@ -142,7 +142,7 @@ func WithConfig(config Config) Option {
 			TLSClientConfig:     tlsClientConfig,
 		})
 		timeout = httpcli.Timeout(time.Duration(config.StateTimeoutSeconds) * time.Second)
-		doer    = httpcli.New(config.MesosAuthentication, config.httpConfigMap, transport, timeout)
+		doer    = httpcli.New(config.MesosAuthentication, config.HttpConfigMap, transport, timeout)
 	)
 	return func(rg *RecordGenerator) {
 		rg.httpClient = doer
@@ -168,7 +168,7 @@ func NewRecordGenerator(options ...Option) *RecordGenerator {
 // into DNS records.
 func (rg *RecordGenerator) ParseState(c Config, masters ...string) error {
 	// find master -- return if error
-	sj, err := rg.findMaster(masters...)
+	sj, err := rg.FindMaster(masters...)
 	if err != nil {
 		logging.Error.Println("Failed to fetch state.json. Error: ", err)
 		return err
@@ -189,7 +189,7 @@ func (rg *RecordGenerator) ParseState(c Config, masters ...string) error {
 
 // Tries each master and looks for the leader
 // if no leader responds it errors
-func (rg *RecordGenerator) findMaster(masters ...string) (state.State, error) {
+func (rg *RecordGenerator) FindMaster(masters ...string) (state.State, error) {
 	var sj state.State
 	var leader string
 
