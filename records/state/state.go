@@ -217,10 +217,13 @@ func labels(key string) func(*Status) []string {
 
 // Framework holds a framework as defined in the /state.json Mesos HTTP endpoint.
 type Framework struct {
+	ID       string `json:"id"`
 	Tasks    []Task `json:"tasks"`
 	PID      PID    `json:"pid"`
 	Name     string `json:"name"`
 	Hostname string `json:"hostname"`
+	WebUI_Url string `json:"webui_url"`
+	Principal string `json:"principal"`
 }
 
 // HostPort returns the hostname and port where a framework's scheduler is
@@ -237,6 +240,7 @@ type Slave struct {
 	ID       string `json:"id"`
 	Hostname string `json:"hostname"`
 	PID      PID    `json:"pid"`
+	Attributes map[string]string `json:"attributes"`
 }
 
 // PID holds a Mesos PID and implements the json.Unmarshaler interface.
